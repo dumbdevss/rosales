@@ -41,22 +41,18 @@ export function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             
             {/* Company Info & Logo */}
-            <div className="space-y-6">
-              <div className="flex items-center space-x-3 mb-6">
+            <div className="space-y-2">
+              <div className="flex items-center">
                 <Image 
-                  src="/Empowered_SQ_logo.png" 
+                  src="/Rosales-Yard-transparent.avif" 
                   alt="Rosales Yard Maintenance Logo" 
-                  width={60} 
-                  height={60}
+                  width={120} 
+                  height={120}
                   className="rounded-lg"
                 />
-                <div>
-                  <h3 className="text-xl font-bold text-white">Rosales Yard</h3>
-                  <p className="text-accent-green font-semibold">Maintenance</p>
-                </div>
               </div>
               
-              <p className="text-gray-300 leading-relaxed">
+              <p className="text-gray-300 text-sm leading-relaxed">
                 Austin's premier landscaping company since 2019. We transform ordinary yards into extraordinary outdoor spaces with professional care and guaranteed results.
               </p>
 

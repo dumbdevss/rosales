@@ -43,36 +43,24 @@ export function Header() {
 
   return (
     <>
-      <header 
-        className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-          isScrolled 
-            ? 'bg-white/95 backdrop-blur-xl shadow-xl border-b border-green-100/50' 
+      <header
+        className={`fixed top-0 w-full z-50 transition-all duration-500 ${isScrolled
+            ? 'bg-white/95 backdrop-blur-xl shadow-xl border-b border-green-100/50'
             : 'bg-white/90 backdrop-blur-lg shadow-lg border-b border-green-50/30'
-        }`}
+          }`}
       >
         {/* Subtle gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-green-50/20 via-white/10 to-green-50/20 pointer-events-none"></div>
-        
+
         <nav className="container-padding relative z-10">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               className="group flex items-center space-x-3 text-primary-green hover:text-accent-green transition-all duration-300"
             >
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-accent-green/20 to-primary-green/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative bg-white/80 p-2 rounded-xl shadow-light border border-green-100/50 group-hover:shadow-medium transition-all duration-300">
-                  <Image src="/Empowered_SQ_logo.png" alt="Rosales Yard Maintenance Logo" width={40} height={40} className="group-hover:scale-110 transition-transform duration-300" />
-                </div>
-              </div>
-              <div className="hidden sm:block">
-                <div className="font-bold text-lg bg-gradient-to-r from-primary-green to-accent-green bg-clip-text text-transparent group-hover:from-accent-green group-hover:to-primary-green transition-all duration-300">
-                  Rosales
-                </div>
-                <div className="text-xs text-gray-600 font-medium">
-                  Yard Maintenance
-                </div>
+              <div className="">
+                <Image src="/Rosales-Yard-transparent.avif" alt="Rosales Yard Maintenance Logo" width={120} height={120} className="group-hover:scale-110 transition-transform duration-300" />
               </div>
             </Link>
 
@@ -114,7 +102,7 @@ export function Header() {
                 <Phone size={16} className="group-hover:animate-pulse" />
                 <span>(512) 694-1773</span>
               </a>
-              
+
               <a
                 href="https://wa.me/15126941773?text=Hi! I'm interested in lawn care services in Austin"
                 target="_blank"
@@ -146,7 +134,7 @@ export function Header() {
                 backgroundImage: `radial-gradient(circle at 20% 80%, rgba(76, 175, 80, 0.1) 0%, transparent 50%)`
               }}></div>
             </div>
-            
+
             <div className="container-padding py-6 relative z-10">
               <div className="flex flex-col space-y-2">
                 {navigation.filter(item => !item.isButton).map((item) => (
@@ -160,7 +148,7 @@ export function Header() {
                     {item.name}
                   </NavLink>
                 ))}
-                
+
                 {/* Mobile CTA Buttons */}
                 <div className="flex flex-col space-y-3 pt-6 border-t border-green-100/50 mt-4">
                   <button
@@ -173,7 +161,7 @@ export function Header() {
                     <Zap size={20} className="group-hover:animate-bounce" />
                     <span>Get Instant Quote</span>
                   </button>
-                  
+
                   <a
                     href="tel:512-694-1773"
                     className="flex items-center justify-center space-x-2 bg-gradient-to-r from-accent-green to-primary-green text-white px-6 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:shadow-xl group"
@@ -181,7 +169,7 @@ export function Header() {
                     <Phone size={20} className="group-hover:animate-pulse" />
                     <span>(512) 694-1773</span>
                   </a>
-                  
+
                   <a
                     href="https://wa.me/15126941773?text=Hi! I'm interested in lawn care services in Austin"
                     target="_blank"
@@ -211,15 +199,15 @@ interface NavLinkProps {
 
 function NavLink({ href, pathname, children, onClick, mobile }: NavLinkProps) {
   const isActive = href.startsWith('/#') ? false : pathname === href || (href !== '/' && pathname.startsWith(href));
-  
+
   const baseStyles = mobile
     ? "block px-4 py-3 text-base font-semibold transition-all duration-300"
     : "relative px-3 py-2 text-sm font-medium transition-all duration-300";
-    
+
   const activeStyles = mobile
     ? "text-primary-green bg-gradient-to-r from-green-50 to-accent-green/10 rounded-xl border border-green-200/50"
     : "text-primary-green bg-white/60 rounded-xl shadow-light border border-green-100/50";
-    
+
   const inactiveStyles = mobile
     ? "text-neutral-dark hover:text-primary-green hover:bg-gradient-to-r hover:from-gray-50 hover:to-green-50/50 rounded-xl"
     : "text-neutral-dark hover:text-primary-green hover:bg-white/40 rounded-xl hover:shadow-light";

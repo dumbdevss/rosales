@@ -197,16 +197,6 @@ export function ProcessSection() {
                 <Rocket size={24} className="group-hover:animate-bounce" />
                 <span>Start My Transformation</span>
               </button>
-              
-              <div className="text-sm text-gray-500 flex items-center space-x-2">
-                <span>or</span>
-                <button 
-                  onClick={openChat}
-                  className="text-accent-green hover:text-primary-green font-semibold underline transition-colors"
-                >
-                  Ask us a question first
-                </button>
-              </div>
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-xl mx-auto">

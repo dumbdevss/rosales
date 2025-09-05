@@ -2,6 +2,7 @@ import { Hero } from '../components/hero';
 import { ProcessSection } from '../components/processSection';
 import { ServicesSection } from '../components/serviceSection';
 import { AboutSection } from '../components/aboutSection';
+import { GallerySection } from '../components/gallerySection';
 import { CTASection } from '../components/ctaSection';
 
 export default function HomePage() {
@@ -18,6 +19,9 @@ export default function HomePage() {
       
       {/* About John & Company */}
       <AboutSection />
+      
+      {/* Gallery - Before/After Transformations */}
+      <GallerySection />
       
       {/* Final CTA Section */}
       <CTASection />

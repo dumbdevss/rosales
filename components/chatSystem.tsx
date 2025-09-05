@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { X, Send, MessageCircle, Phone } from 'lucide-react';
+import { useChat } from './chatProvider';
 import type { ChatSystemState, ChatMessage, ChatOption, UserData } from '../types';
 
 interface ChatSystemProps {
@@ -32,6 +33,7 @@ const SERVICES = {
 };
 
 export function ChatSystem({ chatState, setChatState }: ChatSystemProps) {
+  const { closeChat } = useChat();
   const [inputMessage, setInputMessage] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -253,7 +255,18 @@ export function ChatSystem({ chatState, setChatState }: ChatSystemProps) {
     const areaName = AREAS[chatState.userData.area as keyof typeof AREAS] || 'Austin area';
 
     addMessage(
-      `🎉 Here's your instant quote for lawn mowing service!<br><br>💰 <strong>Spring Special Active:</strong> $20 OFF your first service when you book 2 services!<br><br><div class="bg-gradient-to-r from-accent-green to-primary-green text-white p-4 rounded-lg text-center mt-3"><div class="text-2xl font-bold">$${pricing.min} - $${pricing.max}</div><div class="text-sm opacity-90">Per mowing service in ${areaName}</div></div><br><button class="w-full bg-warm-orange hover:bg-orange-600 text-white py-3 px-6 rounded-full font-semibold transition-all mt-3" onclick="window.chatInstance?.bookService()">📅 Book Service & Save $20<span class="ml-2 bg-white/20 px-2 py-1 rounded-full text-xs">SPRING SPECIAL</span></button>`,
+      `<div style="color: #111827 !important;">
+        🎉 Here's your instant quote for lawn mowing service!<br><br>
+        💰 <strong style="color: #111827 !important;">Spring Special Active:</strong> $20 OFF your first service when you book 2 services!<br><br>
+        <div class="bg-gradient-to-r from-accent-green to-primary-green p-4 rounded-lg text-center mt-3" style="color: #000000 !important;">
+          <div class="text-2xl font-bold" style="color: #000000 !important;">$${pricing.min} - $${pricing.max}</div>
+          <div class="text-sm opacity-90" style="color: #000000 !important;">Per mowing service in ${areaName}</div>
+        </div><br>
+        <button style="color: #000000 !important;" class="w-full bg-warm-orange hover:bg-orange-600 text-white py-3 px-6 rounded-full font-semibold transition-all mt-3" onclick="window.chatInstance?.bookService()">
+          📅 Book Service & Save $20
+          <span class="ml-2 bg-white/20 px-2 py-1 rounded-full text-xs">SPRING SPECIAL</span>
+        </button>
+      </div>`,
       true
     );
   };
@@ -376,15 +389,18 @@ export function ChatSystem({ chatState, setChatState }: ChatSystemProps) {
     }
   };
 
-  const closeChat = () => {
+  const handleCloseChat = () => {
+    // Reset local chat state
     setChatState(prev => ({
       ...prev,
-      isOpen: false,
       messages: [],
       currentStep: 'welcome',
       userData: {},
       isTyping: false
     }));
+    console.log("Chat closed")
+    // Close chat in provider
+    closeChat();
   };
 
   // Expose bookService globally for button click
@@ -399,26 +415,20 @@ export function ChatSystem({ chatState, setChatState }: ChatSystemProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div className="w-full max-w-2xl h-[700px] bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-white/20">
+      <div className="w-full max-w-lg h-[85vh] max-h-[600px] bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-white/20">
         {/* Header */}
-        <div className="bg-gradient-to-r from-accent-green via-primary-green to-accent-green text-white p-6 text-center relative overflow-hidden">
+        <div className="bg-gradient-to-r from-accent-green via-primary-green to-accent-green text-white p-4 text-center relative overflow-hidden">
           {/* Background pattern */}
-          <div className="absolute inset-0 opacity-20">
-            <div className="absolute inset-0" style={{
-              backgroundImage: `radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                               radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 0%, transparent 50%)`
-            }}></div>
-          </div>
           
           <button
-            onClick={closeChat}
-            className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-xl transition-all duration-300 group z-10"
+            onClick={handleCloseChat}
+            className="absolute cursor-pointer top-4 right-4 p-2 hover:bg-white/20 rounded-xl transition-all duration-300 group z-100"
             aria-label="Close chat"
           >
             <X size={20} className="group-hover:rotate-90 transition-transform duration-300" />
           </button>
           
-          <div className="relative z-10">
+          <div className="">
             <h3 className="text-2xl font-bold mb-2">🌹 Rosales Quick Quote</h3>
             <p className="text-sm opacity-90">Get your Austin yard estimate in 60 seconds!</p>
             <div className="flex items-center justify-center space-x-4 mt-3 text-xs opacity-80">
@@ -433,7 +443,7 @@ export function ChatSystem({ chatState, setChatState }: ChatSystemProps) {
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-gray-50/50 to-white">
+        <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gradient-to-b from-gray-50/50 to-white">
           {chatState.messages.map((message) => (
             <div key={message.id} className="animate-slide-in">
               <div className={`flex ${message.isBot ? 'justify-start' : 'justify-end'}`}>
@@ -471,7 +481,7 @@ export function ChatSystem({ chatState, setChatState }: ChatSystemProps) {
           {chatState.isTyping && (
             <div className="flex justify-start">
               <div className="bot-message flex items-center space-x-2">
-                <span>Rosales is typing</span>
+                <span className="text-gray-700">Rosales is typing</span>
                 <div className="flex space-x-1">
                   <div className="w-1.5 h-1.5 bg-accent-green rounded-full animate-typing" />
                   <div className="w-1.5 h-1.5 bg-accent-green rounded-full animate-typing" style={{ animationDelay: '0.2s' }} />
@@ -485,7 +495,7 @@ export function ChatSystem({ chatState, setChatState }: ChatSystemProps) {
         </div>
 
         {/* Input */}
-        <div className="p-6 border-t border-gray-200/50 bg-white/80 backdrop-blur-sm">
+        <div className="p-4 border-t border-gray-200/50 bg-white/80 backdrop-blur-sm">
           <div className="flex space-x-3">
             <input
               ref={inputRef}
@@ -494,20 +504,20 @@ export function ChatSystem({ chatState, setChatState }: ChatSystemProps) {
               onChange={(e) => setInputMessage(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && inputMessage.trim() && handleTextInput(inputMessage.trim())}
               placeholder="Type your message..."
-              className="flex-1 px-6 py-4 border border-gray-300/50 rounded-2xl focus:outline-none focus:ring-2 focus:ring-accent-green/50 focus:border-accent-green bg-white/80 backdrop-blur-sm shadow-light text-gray-800 placeholder-gray-500 transition-all duration-300"
+              className="flex-1 px-4 py-3 border border-gray-300/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-green/50 focus:border-accent-green bg-white/80 backdrop-blur-sm shadow-light text-gray-900 placeholder-gray-500 transition-all duration-300"
             />
             <button
               onClick={() => inputMessage.trim() && handleTextInput(inputMessage.trim())}
               disabled={!inputMessage.trim()}
-              className="bg-gradient-to-r from-accent-green to-primary-green hover:from-primary-green hover:to-accent-green disabled:from-gray-300 disabled:to-gray-400 text-white p-4 rounded-2xl transition-all duration-300 hover:shadow-lg hover:scale-105 disabled:hover:scale-100 group"
+              className="bg-gradient-to-r from-accent-green to-primary-green hover:from-primary-green hover:to-accent-green disabled:from-gray-300 disabled:to-gray-400 text-white p-3 rounded-xl transition-all duration-300 hover:shadow-lg hover:scale-105 disabled:hover:scale-100 group"
             >
               <Send size={18} className="group-hover:translate-x-0.5 transition-transform duration-300" />
             </button>
           </div>
-          <div className="flex items-center justify-center mt-3 text-xs text-gray-500">
+          <div className="flex items-center justify-center mt-3 text-xs text-gray-600">
             <span className="flex items-center space-x-1">
-              <Phone size={12} />
-              <span>Or call (512) 694-1773 for immediate assistance</span>
+              <Phone size={12} className="text-gray-600" />
+              <span className="text-gray-600">Or call (512) 694-1773 for immediate assistance</span>
             </span>
           </div>
         </div>
