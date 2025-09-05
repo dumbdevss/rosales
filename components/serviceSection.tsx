@@ -285,16 +285,6 @@ export function ServicesSection() {
                 <Calculator size={24} className="group-hover:animate-bounce" />
                 <span>Get My Custom Quote Now</span>
               </button>
-              
-              <div className="text-sm text-gray-500 flex items-center space-x-2">
-                <span>or</span>
-                <button 
-                  onClick={openChat}
-                  className="text-accent-green hover:text-primary-green font-semibold underline transition-colors"
-                >
-                  Chat with us first
-                </button>
-              </div>
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl mx-auto">
